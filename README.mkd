@@ -1,0 +1,51 @@
+clusearch
+=========
+
+A local (file/directory) search application build on top of
+[cluwrap](https://github.com/DrTom/cluwrap),
+[lucene](http://lucene.apache.org/java/docs/index.html), and
+[tika](http://tika.apache.org/). 
+
+
+Build
+-----
+
+1. Install [leiningen](https://github.com/technomancy/leiningen), 
+2. then execute `lein uberjar`.
+
+
+Usage (by example)
+------------------
+
+### Build an index
+
+    JAVA_OPTS="-Xmx2048m" java -jar clusearch-1.0.0-standalone.jar build-index --dir ~/Bibliothek --index-dir ~/tmp/st-bib-index/ --include '(?i).*pdf'  
+
+_clusearch_ uses _Apache Tika_ under the hood to extract a textual representation of various filetypes.
+
+### Query an index
+
+    java -jar clusearch-1.0.0-standalone.jar query  --index-dir /tmp/bib-index/ --query "clojure AND logging"
+
+### Using the query-server
+
+1. starting the server:
+
+        java -jar clusearch-1.0.0-standalone.jar query-server  --index-dir /tmp/bib-index/
+
+2. perform a query: 
+
+        curl localhost:9876/search?query=clojure%20AND%20logging
+
+  Note: the only accepted verb is `GET`. 
+
+State
+-----
+
+## License
+
+Copyright (C) 2011 Thomas Schank
+
+Distributed under the GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
+
+
